@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: temporal-node-server
+    command: node src/server.js
+    ports:
+      - "3000:3000"
+    environment:
+      - TEMPORAL_ADDRESS=host.docker.internal:7233
+    depends_on:
+      - worker
+    networks:
+      - temporal-net
+
+  worker:
+    build: .
+    container_name: temporal-node-worker
+    command: node src/worker.js
+    environment:
+      - TEMPORAL_ADDRESS=host.docker.internal:7233
+    networks:
+      - temporal-net
+
+networks:
+  temporal-net:
+    driver: bridge

@@ -1,0 +1,21 @@
+{
+  "name": "temporal-node",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:server": "node src/server.js",
+    "dev:worker": "node src/worker.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@temporalio/client": "^1.13.1",
+    "@temporalio/worker": "^1.13.1",
+    "@temporalio/workflow": "^1.13.1",
+    "express": "^5.1.0"
+  }
+}
