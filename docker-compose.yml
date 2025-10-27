@@ -8,21 +8,21 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - TEMPORAL_ADDRESS=host.docker.internal:7233
+      - TEMPORAL_ADDRESS=temporal:7233
     depends_on:
       - worker
     networks:
-      - temporal-net
+      - temporal_shared_network
 
   worker:
     build: .
     container_name: temporal-node-worker
     command: node src/worker.js
     environment:
-      - TEMPORAL_ADDRESS=host.docker.internal:7233
+      - TEMPORAL_ADDRESS=temporal:7233
     networks:
-      - temporal-net
+      - temporal_shared_network
 
 networks:
-  temporal-net:
-    driver: bridge
+  temporal_shared_network:
+    external: true

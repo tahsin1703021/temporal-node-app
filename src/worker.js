@@ -1,23 +1,24 @@
-import pkg from "@temporalio/worker";
-const { Worker } = pkg;
-import pkgClient from "@temporalio/client";
-const { Connection } = pkgClient;
+import { Worker } from "@temporalio/worker";
+import { NativeConnection } from "@temporalio/worker";
+import { WorkflowClient } from "@temporalio/client";
+
 
 import * as activities from "./activities.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const address = process.env.TEMPORAL_ADDRESS || "localhost:7233";
-console.log(address)
+const address = "temporal:7233";
+const connection = await NativeConnection.connect({ address });
+
 async function run() {
-  const connection = await Connection.connect({ address });
 
   const worker = await Worker.create({
-    workflowsPath: path.join(__dirname, "workflows.js"),
-    activities,
+    connection,
+    namespace: 'default',
     taskQueue: "hello-task-queue",
-    //connection,
+    activities,
+    workflowsPath: path.join(__dirname, "workflows.js"),
   });
 
   console.log("👷 Worker started! Listening on 'hello-task-queue'...");
