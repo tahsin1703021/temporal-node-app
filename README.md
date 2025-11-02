@@ -1,3 +1,6 @@
+# Build the services
+docker compose build
+
 # Run the worker
 docker compose up worker
 
