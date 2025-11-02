@@ -4,25 +4,18 @@ services:
   app:
     build: .
     container_name: temporal-node-server
+    network_mode: "host" 
     command: node src/server.js
     ports:
       - "3000:3000"
     environment:
-      - TEMPORAL_ADDRESS=temporal:7233
-    depends_on:
-      - worker
-    networks:
-      - temporal_shared_network
+      - ADDRESS=localhost:30087
+
 
   worker:
     build: .
     container_name: temporal-node-worker
+    network_mode: "host"
     command: node src/worker.js
     environment:
-      - TEMPORAL_ADDRESS=temporal:7233
-    networks:
-      - temporal_shared_network
-
-networks:
-  temporal_shared_network:
-    external: true
+      - ADDRESS=localhost:30087
